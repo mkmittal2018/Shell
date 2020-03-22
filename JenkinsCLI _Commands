@@ -1,0 +1,23 @@
+CRUMB=$(wget -q --auth-no-challenge --user manoj --password manoj --output-document - 'http://52.64.255.246:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)')
+
+
+
+
+
+
+ curl -I -X POST http://manoj:113e6d7ff562a738a339786e285da97155@52.64.255.246:8080/job/LinuxAcadmey/job/echo1/build -H "$CRUMB"
+ 
+ 
+ In this video we are going to be looking at the Jenkins rest API. We will investigate how to run a build, copy a job and restart the server.
+
+Commands that were used in this lesson:
+
+Get crumb CRUMB=$(wget -q --auth-no-challenge --user username --password Password --output-document - 'http://192.168.1.49:8080/crumbIssuer/api/xml?xpath=concat(//crumbRequestField,":",//crumb)')
+
+1139d7870b3745018e44079544ac478117 Run a build curl -I -X POST http://darealmc:1193974fe1f27156c1cca4f218d9f0b751@192.168.1.49:8080/job/realmcjobs/job/pipeone/build -H "$CRUMB"
+
+Get job info curl -X GET http://darealmc:1193974fe1f27156c1cca4f218d9f0b751@192.168.1.49:8080/job/realmcjobs/job/pipeone/config.xml -H "$CRUMB" -o ./jobconfig.xml
+
+Create a job not in folder curl -s -X POST 'http://darealmc:1193974fe1f27156c1cca4f218d9f0b751@192.168.1.49:8080/createItem?name=copyone' --data-binary @jobconfig.xml -H "$CRUMB" -H "Content-Type:text/xml"
+
+Create a job in a folder curl -s -XPOST 'http://darealmc:1193974fe1f27156c1cca4f218d9f0b751@192.168.1.49:8080/job/realmcjobs/createItem?name=copyone' --data-binary @jobconfig.xml -H "$CRUMB" -H "Content-Type:text/xml
